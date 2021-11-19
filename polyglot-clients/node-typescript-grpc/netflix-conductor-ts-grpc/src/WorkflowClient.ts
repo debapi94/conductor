@@ -1,8 +1,8 @@
 
 import * as grpc from '@grpc/grpc-js';
 import * as net from './common';
-import { WorkflowServiceClient } from './proto/service/workflow_service_grpc_pb';
-import { GetWorkflowsRequest } from './proto/service/workflow_service_pb';
+import { WorkflowServiceClient } from '../proto/service/workflow_service_grpc_pb';
+import { GetWorkflowsRequest } from '../proto/service/workflow_service_pb';
 
 export class WorkflowClient {
     private grpcClient: WorkflowServiceClient;

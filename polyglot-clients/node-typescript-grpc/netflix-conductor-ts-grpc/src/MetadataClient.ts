@@ -1,9 +1,9 @@
 
 import * as grpc from '@grpc/grpc-js';
 import * as net from './common';
-import { WorkflowDef } from './proto/model/workflowdef_pb';
-import { MetadataServiceClient } from './proto/service/metadata_service_grpc_pb';
-import { CreateWorkflowRequest } from './proto/service/metadata_service_pb';
+import { WorkflowDef } from '../proto/model/workflowdef_pb';
+import { MetadataServiceClient } from '../proto/service/metadata_service_grpc_pb';
+import { CreateWorkflowRequest } from '../proto/service/metadata_service_pb';
 
 export class MetadataClient {
     private grpcClient: MetadataServiceClient;

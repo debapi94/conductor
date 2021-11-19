@@ -1,8 +1,8 @@
 
 import * as grpc from '@grpc/grpc-js';
 import * as net from './common';
-import { EventServiceClient } from './proto/service/event_service_grpc_pb';
-import { GetEventHandlersRequest } from './proto/service/event_service_pb';
+import { EventServiceClient } from '../proto/service/event_service_grpc_pb';
+import { GetEventHandlersRequest } from '../proto/service/event_service_pb';
 
 export class EventClient {
     private grpcClient: EventServiceClient;
