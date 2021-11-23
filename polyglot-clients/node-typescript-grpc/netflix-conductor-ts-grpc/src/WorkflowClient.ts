@@ -2,7 +2,7 @@
 import * as grpc from '@grpc/grpc-js';
 import * as net from './common';
 import { WorkflowServiceClient } from '../proto/service/workflow_service_grpc_pb';
-import { GetWorkflowsRequest } from '../proto/service/workflow_service_pb';
+import { GetRunningWorkflowsRequest, GetWorkflowsRequest, GetWorkflowStatusRequest } from '../proto/service/workflow_service_pb';
 import { StartWorkflowRequest } from '../proto/model/startworkflowrequest_pb';
 
 export class WorkflowClient {
@@ -12,7 +12,7 @@ export class WorkflowClient {
       this.grpcClient = new WorkflowServiceClient(address, grpc.credentials.createInsecure());
     }
    
-    public GetWorkflows(callback:(error:net.Error,response:net.Response) => void) {
+    public getWorkflows(callback:(error:net.Error,response:net.Response) => void) {
         const req = new GetWorkflowsRequest();
         this.grpcClient.getWorkflows(req, function(err, response) {
             //console.log(err);
@@ -25,7 +25,7 @@ export class WorkflowClient {
           });
     }
    
-    public StartWorkflow(name:string, callback:(error:net.Error,response:net.Response) => void) {
+    public startWorkflow(name:string, callback:(error:net.Error,response:net.Response) => void) {
         const req = new StartWorkflowRequest();
         req.setName(name);
         this.grpcClient.startWorkflow(req, function(err, response) {
@@ -35,6 +35,42 @@ export class WorkflowClient {
             error.message = err ? err.message : ""; 
             const resp = new net.Response();
             resp.value = response && response.getWorkflowId();
+            callback(error, resp);
+          });
+    }
+   
+    public getWorkflowStatus(callback:(error:net.Error,response:net.Response) => void, 
+        workflowId:string, includeTasks?:boolean) {
+        const req = new GetWorkflowStatusRequest();
+        req.setWorkflowId(workflowId);
+        req.setIncludeTasks(includeTasks ?? false);
+        this.grpcClient.getWorkflowStatus(req, function(err, response) {
+            console.log(err);
+            console.log(response);
+            const error = new net.Error();
+            error.message = err ? err.message : ""; 
+            const resp = new net.Response();
+            resp.value = response && response.toObject();
+            callback(error, resp);
+          });
+    }
+   
+    public getRunningWorkflows(callback:(error:net.Error,response:net.Response) => void, 
+        workflowName?:string, version?:number) {
+        const req = new GetRunningWorkflowsRequest();
+        if(workflowName)
+          req.setName(workflowName);
+
+        if(version)
+          req.setVersion(version);
+        
+        this.grpcClient.getRunningWorkflows(req, function(err, response) {
+            console.log(err);
+            console.log(response);
+            const error = new net.Error();
+            error.message = err ? err.message : ""; 
+            const resp = new net.Response();
+            resp.value = response && response.getWorkflowIdsList();
             callback(error, resp);
           });
     }

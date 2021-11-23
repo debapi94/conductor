@@ -2,10 +2,10 @@ export class Error{
     message?: string;
 }
 export class Response{
-    value?: string;
+    value?: any;
 }
 
-export class TaskReturnObject{
+export interface TaskReturnObject{
     status:string;
     output:object;
     logs:Array<any>;

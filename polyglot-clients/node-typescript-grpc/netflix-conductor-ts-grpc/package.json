@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start":"npm run build && npm link",
+    "build":"npm run proto-gen",
+    "proto-gen": "npx grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./proto/ --ts_out=grpc_js:./proto/ts/ -I grpc/ --grpc_out=grpc_js:./proto ./grpc/*/*.proto"
   },
   "keywords": [],
   "author": "",

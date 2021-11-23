@@ -4,6 +4,7 @@ import * as net from './common';
 import { TaskServiceClient } from '../proto/service/task_service_grpc_pb';
 import * as tasks from '../proto/service/task_service_pb';
 import { Task } from '../proto/model/task_pb';
+import { TaskResult } from '../proto/model/taskresult_pb';
 
 export function iEqual(a:number):number{
     return a*10;
@@ -16,13 +17,11 @@ export class TaskClient {
       this.grpcClient = new TaskServiceClient(address, grpc.credentials.createInsecure());
     }
    
-    public GetTask(taskId:string, callback:(error:net.Error,response:net.Response) => void) {
+    public getTask(taskId:string, callback:(error:net.Error,response:net.Response) => void) {
         const req = new tasks.GetTaskRequest();
         req.setTaskId(taskId);
 
         this.grpcClient.getTask(req, function(err, response) {
-            //console.log(err);
-            // console.log(response);
             const error = new net.Error();
             error.message = err ? err.message : ""; 
             const resp = new net.Response();
@@ -31,12 +30,11 @@ export class TaskClient {
           });
     }
    
-    public UpdateTask(taskObj:Task, callback:(error:net.Error,response:net.Response) => void) {
+    public updateTask(taskResultObj:TaskResult, callback:(error:net.Error,response:net.Response) => void) {
         const req = new tasks.UpdateTaskRequest();
+        req.setResult(taskResultObj);
 
         this.grpcClient.updateTask(req, function(err, response) {
-            //console.log(err);
-            // console.log(response);
             const error = new net.Error();
             error.message = err ? err.message : ""; 
             const resp = new net.Response();
@@ -45,54 +43,30 @@ export class TaskClient {
           });
     }
    
-    public Poll(callback:(error:net.Error,response:net.Response) => void, 
-                workerId:string, taskType:string, domain?:string) {
+    public poll(callback:(error:net.Error,response:net.Response) => void, 
+                taskReferenceName:string, workerId?:string, domain?:string) {
         const req = new tasks.PollRequest();
-        req.setWorkerId(workerId);
-        req.setTaskType(taskType);
+        req.setTaskType(taskReferenceName);
+        if(workerId)
+          req.setWorkerId(workerId);
         if(domain)
           req.setDomain(domain);
 
         this.grpcClient.poll(req, function(err, response) {
-            //console.log(err);
-            // console.log(response);
             const error = new net.Error();
             error.message = err ? err.message : ""; 
             const resp = new net.Response();
-            resp.value = response && JSON.stringify(response.getTask());
+            
+            resp.value = response && response.getTask();
             callback(error, resp);
           });
     }
    
-    public PollBatch(callback:(error:net.Error,response:net.Response) => void
-    , workerId:string, taskType:string, count:number, timeOut:number, domain?:string) {
-        const req = new tasks.BatchPollRequest();
-        req.setTimeout(timeOut);
-        req.setCount(count);
-        req.setWorkerId(workerId);
-        req.setTaskType(taskType);
-        if(domain)
-          req.setDomain(domain);
-
-          //TODO stream implementation
-        // this.grpcClient.batchPoll(req, function(err, response) {
-        //     //console.log(err);
-        //     // console.log(response);
-        //     const error = new net.Error();
-        //     error.message = err ? err.message : ""; 
-        //     const resp = new net.Response();
-        //     resp.value = response && JSON.stringify(response.getTask());
-        //     callback(error, resp);
-        //   });
-    }
-   
-    public GetTaskLogs(callback:(error:net.Error,response:net.Response) => void, taskId:string) {
+    public getTaskLogs(callback:(error:net.Error,response:net.Response) => void, taskId:string) {
         const req = new tasks.GetTaskLogsRequest();
         req.setTaskId(taskId);
 
         this.grpcClient.getTaskLogs(req, function(err, response) {
-            //console.log(err);
-            // console.log(response);
             const error = new net.Error();
             error.message = err ? err.message : ""; 
             const resp = new net.Response();
@@ -101,12 +75,10 @@ export class TaskClient {
           });
     }
    
-    public GetQueueInfo(callback:(error:net.Error,response:net.Response) => void, taskId:string) {
+    public getQueueInfo(callback:(error:net.Error,response:net.Response) => void, taskId:string) {
         const req = new tasks.QueueInfoRequest();
 
         this.grpcClient.getQueueInfo(req, function(err, response) {
-            //console.log(err);
-            // console.log(response);
             const error = new net.Error();
             error.message = err ? err.message : ""; 
             const resp = new net.Response();
@@ -115,11 +87,9 @@ export class TaskClient {
           });
     }
    
-    public GetQueueAllInfo(callback:(error:net.Error,response:net.Response) => void) {
+    public getQueueAllInfo(callback:(error:net.Error,response:net.Response) => void) {
         const req = new tasks.QueueAllInfoRequest();
         this.grpcClient.getQueueAllInfo(req, function(err, response) {
-            //console.log(err);
-            // console.log(response);
             const error = new net.Error();
             error.message = err ? err.message : ""; 
             const resp = new net.Response();

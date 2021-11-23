@@ -3,7 +3,7 @@ import { iEqual, TaskClient, WorkflowClient
 
 const exec_function = () => ({'status': 'COMPLETED', 'output': {}, 'logs': []} as TaskReturnObject);
 
-let cc = new ConductorWorker("localhost:8090", 2, 2000, "5e17f8cf-46dd-4c72-808c-edc4b6bd16db");
+let cc = new ConductorWorker("localhost:8090", 2, 2000, "1b32c647-2f33-4c7c-8b83-72bba98ab584");
 
 cc.Start("task_1", exec_function);
 
