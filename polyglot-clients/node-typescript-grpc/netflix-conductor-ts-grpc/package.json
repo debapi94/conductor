@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"npm run build && npm link",
-    "build":"npm run proto-gen",
+    "start": "npm run build && npm link",
+    "build": "npm run proto-gen",
     "proto-gen": "npx grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./proto/ --ts_out=grpc_js:./proto/ts/ -I grpc/ --grpc_out=grpc_js:./proto ./grpc/*/*.proto"
   },
   "keywords": [],
@@ -13,7 +13,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^16.11.9",
-    "grpc_tools_node_protoc_ts": "^5.3.2"
+    "grpc_tools_node_protoc_ts": "^5.3.2",
+    "prettier": "2.4.1"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.4.4",
