@@ -26,11 +26,13 @@ export class MetadataClient {
       req.setTaskType(taskName);
 
       this.grpcClient.getTask(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response && response.getTask();
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -46,11 +48,13 @@ export class MetadataClient {
       req.setTask(taskDef);
 
       this.grpcClient.updateTask(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response;
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -66,11 +70,13 @@ export class MetadataClient {
       req.addDefs(taskDef);
 
       this.grpcClient.createTasks(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response;
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -86,11 +92,13 @@ export class MetadataClient {
       req.setTaskType(taskType);
 
       this.grpcClient.deleteTask(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response;
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -106,11 +114,13 @@ export class MetadataClient {
       req.addDefs(workflowDef);
 
       this.grpcClient.updateWorkflows(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response;
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -129,11 +139,13 @@ export class MetadataClient {
       req.setWorkflow(def);
 
       this.grpcClient.createWorkflow(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response;
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }

@@ -26,11 +26,13 @@ export class TaskClient {
       req.setTaskId(taskId);
 
       this.grpcClient.getTask(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response && JSON.stringify(response.getTask());
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -46,11 +48,13 @@ export class TaskClient {
       req.setResult(taskResultObj);
 
       this.grpcClient.updateTask(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response && response.getTaskId();
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -70,11 +74,13 @@ export class TaskClient {
       if (domain) req.setDomain(domain);
 
       this.grpcClient.poll(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response && response.getTask();
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -90,11 +96,13 @@ export class TaskClient {
       req.setTaskId(taskId);
 
       this.grpcClient.getTaskLogs(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response && JSON.stringify(response.getLogsList());
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -109,11 +117,13 @@ export class TaskClient {
       const req = new tasks.QueueInfoRequest();
 
       this.grpcClient.getQueueInfo(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response && response.getQueuesMap();
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -126,11 +136,13 @@ export class TaskClient {
     try {
       const req = new tasks.QueueAllInfoRequest();
       this.grpcClient.getQueueAllInfo(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response && response.getQueuesMap().arr_;
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }

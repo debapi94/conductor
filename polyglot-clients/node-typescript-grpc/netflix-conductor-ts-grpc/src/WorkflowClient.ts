@@ -26,11 +26,13 @@ export class WorkflowClient {
     try {
       const req = new GetWorkflowsRequest();
       this.grpcClient.getWorkflows(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response && response.getWorkflowsByIdMap().arr_;
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -45,11 +47,13 @@ export class WorkflowClient {
       const req = new StartWorkflowRequest();
       req.setName(name);
       this.grpcClient.startWorkflow(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response && response.getWorkflowId();
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -66,11 +70,13 @@ export class WorkflowClient {
       req.setWorkflowId(workflowId);
       req.setIncludeTasks(includeTasks ?? false);
       this.grpcClient.getWorkflowStatus(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response && response.toObject();
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -89,11 +95,13 @@ export class WorkflowClient {
       if (version) req.setVersion(version);
 
       this.grpcClient.getRunningWorkflows(req, function (err, response) {
-        error.message = err ? err.message : "";
+        error.message = err ? err.details : "";
         resp.value = response && response.getWorkflowIdsList();
+        callback(error, resp);
       });
-    } catch (ex) {
-      error.message = ex.message;
+    } catch (ex:unknown) {
+      if(ex instanceof Error)
+        error.message = ex.message;
     }
     callback(error, resp);
   }
