@@ -2,16 +2,13 @@ import * as grpc from "@grpc/grpc-js";
 import * as net from "./common";
 import { TaskServiceClient } from "../proto/service/task_service_grpc_pb";
 import * as tasks from "../proto/service/task_service_pb";
-import { Task } from "../proto/model/task_pb";
 import { TaskResult } from "../proto/model/taskresult_pb";
 
 export class TaskClient {
   private grpcClient: TaskServiceClient;
 
   public constructor(address: string) {
-    this.grpcClient = new TaskServiceClient(
-      address,
-      grpc.credentials.createInsecure()
+    this.grpcClient = new TaskServiceClient(address,grpc.credentials.createInsecure()
     );
   }
 
@@ -109,7 +106,7 @@ export class TaskClient {
 
   public getQueueInfo(
     callback: (error: net.Error, response: net.Response) => void,
-    taskId: string
+    taskId?: string
   ) {
     const error = new net.Error();
     const resp = new net.Response();
@@ -130,7 +127,7 @@ export class TaskClient {
 
   public getQueueAllInfo(
     callback: (error: net.Error, response: net.Response) => void
-  ) {
+  ):void {
     const error = new net.Error();
     const resp = new net.Response();
     try {
@@ -143,7 +140,8 @@ export class TaskClient {
     } catch (ex:unknown) {
       if(ex instanceof Error)
         error.message = ex.message;
+
+      callback(error, resp);
     }
-    callback(error, resp);
   }
 }
