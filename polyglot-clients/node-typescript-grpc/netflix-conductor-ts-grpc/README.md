@@ -7,6 +7,15 @@ Actual code is in folder 'netflix-conductor-ts-grpc'
 The 'test' folder is the client application to test the package.
 ```
 cd test
-npm install //for local testing, link the module
-npx ts-node index.ts
+yarn install 
+yarn ts-node index.ts
+```
+for local testing
+```
+cd netflix-conductor-ts-grpc
+yarn link
+
+cd ../test
+yarn link netflix-conductor-ts-grpc
+yarn run ts-node index.ts
 ```
