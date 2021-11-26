@@ -38,8 +38,8 @@ export class WorkflowClient {
   }
 
   public startWorkflow(
-    name: string,
-    callback: (error: net.Error, response: net.Response) => void
+    callback: (error: net.Error, response: net.Response) => void,
+    name: string
   ) {
     const error = new net.Error();
     const resp = new net.Response();
@@ -71,7 +71,7 @@ export class WorkflowClient {
       req.setIncludeTasks(includeTasks ?? false);
       this.grpcClient.getWorkflowStatus(req, function (err, response) {
         error.message = err && err.details;
-        resp.value = response && response.toObject();
+        resp.value = response && response.getStatus;
         callback(error, resp);
       });
     } catch (ex:unknown) {

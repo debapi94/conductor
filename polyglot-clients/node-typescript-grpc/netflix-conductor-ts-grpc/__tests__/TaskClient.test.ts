@@ -1,6 +1,5 @@
 import * as grpc from "@grpc/grpc-js";
 import * as taskClient from '../src/TaskClient';
-import * as common from '../src/common';
 import * as tasks from "../proto/service/task_service_pb";
 import { TaskServiceClient } from "../proto/service/task_service_grpc_pb";
 import { TaskResult } from "../proto/model/taskresult_pb";
