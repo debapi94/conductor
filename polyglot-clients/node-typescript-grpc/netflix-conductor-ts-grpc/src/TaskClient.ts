@@ -13,8 +13,8 @@ export class TaskClient {
   }
 
   public getTask(
-    taskId: string,
-    callback: (error: net.Error, response: net.Response) => void
+    callback: (error: net.Error, response: net.Response) => void,
+    taskId: string
   ) {
     const error = new net.Error();
     const resp = new net.Response();
@@ -23,8 +23,8 @@ export class TaskClient {
       req.setTaskId(taskId);
 
       this.grpcClient.getTask(req, function (err, response) {
-        error.message = err ? err.details : "";
-        resp.value = response && JSON.stringify(response.getTask());
+        error.message = err && err.details;
+        resp.value = response && response.getTask();
         callback(error, resp);
       });
     } catch (ex:unknown) {
@@ -35,8 +35,8 @@ export class TaskClient {
   }
 
   public updateTask(
-    taskResultObj: TaskResult,
-    callback: (error: net.Error, response: net.Response) => void
+    callback: (error: net.Error, response: net.Response) => void,
+    taskResultObj: TaskResult
   ) {
     const error = new net.Error();
     const resp = new net.Response();
@@ -45,7 +45,7 @@ export class TaskClient {
       req.setResult(taskResultObj);
 
       this.grpcClient.updateTask(req, function (err, response) {
-        error.message = err ? err.details : "";
+        error.message = err && err.details;
         resp.value = response && response.getTaskId();
         callback(error, resp);
       });
@@ -71,7 +71,7 @@ export class TaskClient {
       if (domain) req.setDomain(domain);
 
       this.grpcClient.poll(req, function (err, response) {
-        error.message = err ? err.details : "";
+        error.message = err && err.details;
         resp.value = response && response.getTask();
         callback(error, resp);
       });
@@ -93,8 +93,8 @@ export class TaskClient {
       req.setTaskId(taskId);
 
       this.grpcClient.getTaskLogs(req, function (err, response) {
-        error.message = err ? err.details : "";
-        resp.value = response && JSON.stringify(response.getLogsList());
+        error.message = err && err.details;
+        resp.value = response && response.getLogsList();
         callback(error, resp);
       });
     } catch (ex:unknown) {
@@ -114,8 +114,8 @@ export class TaskClient {
       const req = new tasks.QueueInfoRequest();
 
       this.grpcClient.getQueueInfo(req, function (err, response) {
-        error.message = err ? err.details : "";
-        resp.value = response && response.getQueuesMap();
+        error.message = err && err.details;
+        resp.value = response && response.getQueuesMap().arr_;
         callback(error, resp);
       });
     } catch (ex:unknown) {
@@ -133,7 +133,7 @@ export class TaskClient {
     try {
       const req = new tasks.QueueAllInfoRequest();
       this.grpcClient.getQueueAllInfo(req, function (err, response) {
-        error.message = err ? err.details : "";
+        error.message = err && err.details;
         resp.value = response && response.getQueuesMap().arr_;
         callback(error, resp);
       });

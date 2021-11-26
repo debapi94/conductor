@@ -24,7 +24,7 @@ export class ConductorWorker {
     pollingInterval: number,
     workerId?: string
   ) {
-    let mgr = new WorkflowClientManager(address);
+    const mgr = new WorkflowClientManager(address);
     this.workflowClient = mgr.workflowClient;
     this.taskClient = mgr.taskClient;
     this.metadataClient = mgr.metadataClient;
@@ -38,16 +38,15 @@ export class ConductorWorker {
         taskObj: Task, exec_function: () => TaskReturnObject) {
     let resp = exec_function();
 
-    let taskAsObj = taskObj?.toObject();
-    let result = new TaskResult();
+    const result = new TaskResult();
     result.setTaskId(taskObj.getTaskId());
     result.setWorkflowInstanceId(taskObj.getWorkflowInstanceId());
     result.setStatus(TaskResult.Status.COMPLETED);
     //result.setOutputMessage(resp.output);
 
-    this.taskClient.updateTask(result, (err, resp) => {
+    this.taskClient.updateTask((err, resp) => {
         callback(err,resp);
-    });
+    }, result);
   }
 
   public Start(callback: (error: net.Error, response: net.Response) => void,

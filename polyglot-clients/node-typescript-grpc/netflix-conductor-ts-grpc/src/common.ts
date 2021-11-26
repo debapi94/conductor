@@ -1,5 +1,5 @@
 export class Error{
-    message?: string;
+    message?: string | null;
 }
 export class Response{
     value?: any;
