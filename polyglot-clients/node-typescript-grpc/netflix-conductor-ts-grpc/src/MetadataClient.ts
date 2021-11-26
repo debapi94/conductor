@@ -30,11 +30,11 @@ export class MetadataClient {
         resp.value = response && response.getTask();
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
+
+      callback(error, resp);
     }
-    callback(error, resp);
   }
 
   public updateTask(
@@ -52,11 +52,11 @@ export class MetadataClient {
         resp.value = response;
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
+
+      callback(error, resp);
     }
-    callback(error, resp);
   }
 
   public createTasks(
@@ -74,11 +74,11 @@ export class MetadataClient {
         resp.value = response;
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
+
+      callback(error, resp);
     }
-    callback(error, resp);
   }
 
   public deleteTask(
@@ -96,11 +96,11 @@ export class MetadataClient {
         resp.value = response;
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
+
+      callback(error, resp);
     }
-    callback(error, resp);
   }
 
   public updateWorkflows(
@@ -118,11 +118,11 @@ export class MetadataClient {
         resp.value = response;
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
+
+      callback(error, resp);
     }
-    callback(error, resp);
   }
 
   public createWorkflow(
@@ -143,10 +143,10 @@ export class MetadataClient {
         resp.value = response;
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
+
+      callback(error, resp);
     }
-    callback(error, resp);
   }
 }

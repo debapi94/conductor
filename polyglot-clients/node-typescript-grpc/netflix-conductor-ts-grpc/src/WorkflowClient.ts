@@ -30,11 +30,11 @@ export class WorkflowClient {
         resp.value = response && response.getWorkflowsByIdMap().arr_;
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
+
+      callback(error, resp);
     }
-    callback(error, resp);
   }
 
   public startWorkflow(
@@ -51,11 +51,11 @@ export class WorkflowClient {
         resp.value = response && response.getWorkflowId();
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
+
+      callback(error, resp);
     }
-    callback(error, resp);
   }
 
   public getWorkflowStatus(
@@ -74,11 +74,11 @@ export class WorkflowClient {
         resp.value = response && response.getStatus;
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
+
+      callback(error, resp);
     }
-    callback(error, resp);
   }
 
   public getRunningWorkflows(
@@ -99,10 +99,10 @@ export class WorkflowClient {
         resp.value = response && response.getWorkflowIdsList();
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
+
+      callback(error, resp);
     }
-    callback(error, resp);
   }
 }

@@ -8,7 +8,9 @@ export class TaskClient {
   private grpcClient: TaskServiceClient;
 
   public constructor(address: string) {
-    this.grpcClient = new TaskServiceClient(address,grpc.credentials.createInsecure()
+    this.grpcClient = new TaskServiceClient(
+      address,
+      grpc.credentials.createInsecure()
     );
   }
 
@@ -27,9 +29,8 @@ export class TaskClient {
         resp.value = response && response.getTask();
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -49,9 +50,8 @@ export class TaskClient {
         resp.value = response && response.getTaskId();
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -75,9 +75,8 @@ export class TaskClient {
         resp.value = response && response.getTask();
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -97,9 +96,8 @@ export class TaskClient {
         resp.value = response && response.getLogsList();
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
     }
     callback(error, resp);
   }
@@ -118,16 +116,15 @@ export class TaskClient {
         resp.value = response && response.getQueuesMap().arr_;
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
     }
     callback(error, resp);
   }
 
   public getQueueAllInfo(
     callback: (error: net.Error, response: net.Response) => void
-  ):void {
+  ): void {
     const error = new net.Error();
     const resp = new net.Response();
     try {
@@ -137,9 +134,8 @@ export class TaskClient {
         resp.value = response && response.getQueuesMap().arr_;
         callback(error, resp);
       });
-    } catch (ex:unknown) {
-      if(ex instanceof Error)
-        error.message = ex.message;
+    } catch (ex: unknown) {
+      if (ex instanceof Error) error.message = ex.message;
 
       callback(error, resp);
     }
