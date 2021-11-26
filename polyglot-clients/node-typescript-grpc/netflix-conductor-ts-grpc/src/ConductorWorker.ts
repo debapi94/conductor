@@ -36,7 +36,8 @@ export class ConductorWorker {
 
   public Execute(callback: (error: net.Error, response: net.Response) => void,
         taskObj: Task, exec_function: () => TaskReturnObject) {
-    let resp = exec_function();
+    //let resp = exec_function();
+    exec_function();
 
     const result = new TaskResult();
     result.setTaskId(taskObj.getTaskId());
