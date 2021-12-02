@@ -23,6 +23,9 @@ import Examples from "./pages/kitchensink/Examples";
 import Gantt from "./pages/kitchensink/Gantt";
 
 import AppBarModules from "./plugins/AppBarModules";
+import Login from "./pages/auth/Login";
+import { AuthProvider } from './AuthContext';
+import PrivateRoute from './components/auth/PriavteRoute'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,71 +49,76 @@ export default function App() {
 
   return (
     // Provide context for backward compatibility with class components
-    <div className={classes.root}>
-      <AppBar position="fixed">
-        <Toolbar>
-          <AppLogo />
-          <Button component={NavLink} path="/">
-            Executions
-          </Button>
-          <Button component={NavLink} path="/workflowDef">
-            Definitions
-          </Button>
-          <Button component={NavLink} path="/taskQueue">
-            Task Queues
-          </Button>
+    <AuthProvider>
+      <div className={classes.root}>
+        <AppBar position="fixed">
+          <Toolbar>
+            <AppLogo />
+            <Button component={NavLink} path="/">
+              Executions
+            </Button>
+            <Button component={NavLink} path="/workflowDef">
+              Definitions
+            </Button>
+            <Button component={NavLink} path="/taskQueue">
+              Task Queues
+            </Button>
 
-          <div className={classes.toolbarRight}>
-            <AppBarModules />
-          </div>
-        </Toolbar>
-      </AppBar>
-      <div className={classes.body}>
-        <Switch>
-          <Route exact path="/">
-            <WorkflowSearch />
-          </Route>
-          <Route exact path="/search/by-tasks">
-            <TaskSearch />
-          </Route>
-          <Route path="/execution/:id/:taskId?">
-            <Execution />
-          </Route>
-          <Route exact path="/workflowDef">
-            <WorkflowDefinitions />
-          </Route>
-          <Route exact path="/workflowDef/:name/:version?">
-            <WorkflowDefinition />
-          </Route>
-          <Route exact path="/taskDef">
-            <TaskDefinitions />
-          </Route>
-          <Route exact path="/taskDef/:name">
-            <TaskDefinition />
-          </Route>
-          <Route exact path="/eventHandlerDef">
-            <EventHandlerDefinitions />
-          </Route>
-          <Route exact path="/eventHandlerDef/:name">
-            <EventHandlerDefinition />
-          </Route>
-          <Route exact path="/taskQueue/:name?">
-            <TaskQueue />
-          </Route>
-          <Route exact path="/kitchen">
-            <KitchenSink />
-          </Route>
-          <Route exact path="/kitchen/diagram">
-            <DiagramTest />
-          </Route>
-          <Route exact path="/kitchen/examples">
-            <Examples />
-          </Route>
-          <Route exact path="/kitchen/gantt">
-            <Gantt />
-          </Route>
-        </Switch>
+            <div className={classes.toolbarRight}>
+              <AppBarModules />
+            </div>
+          </Toolbar>
+        </AppBar>
+        <div className={classes.body}>
+          <Switch>
+            <PrivateRoute exact path="/">
+              <WorkflowSearch />
+            </PrivateRoute>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/search/by-tasks">
+              <TaskSearch />
+            </Route>
+            <Route path="/execution/:id/:taskId?">
+              <Execution />
+            </Route>
+            <Route exact path="/workflowDef">
+              <WorkflowDefinitions />
+            </Route>
+            <Route exact path="/workflowDef/:name/:version?">
+              <WorkflowDefinition />
+            </Route>
+            <Route exact path="/taskDef">
+              <TaskDefinitions />
+            </Route>
+            <Route exact path="/taskDef/:name">
+              <TaskDefinition />
+            </Route>
+            <Route exact path="/eventHandlerDef">
+              <EventHandlerDefinitions />
+            </Route>
+            <Route exact path="/eventHandlerDef/:name">
+              <EventHandlerDefinition />
+            </Route>
+            <Route exact path="/taskQueue/:name?">
+              <TaskQueue />
+            </Route>
+            <Route exact path="/kitchen">
+              <KitchenSink />
+            </Route>
+            <Route exact path="/kitchen/diagram">
+              <DiagramTest />
+            </Route>
+            <Route exact path="/kitchen/examples">
+              <Examples />
+            </Route>
+            <Route exact path="/kitchen/gantt">
+              <Gantt />
+            </Route>
+          </Switch>
+        </div>
       </div>
-    </div>
+    </AuthProvider>
   );
 }
