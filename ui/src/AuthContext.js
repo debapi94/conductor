@@ -13,13 +13,14 @@ export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState();
     const history = useHistory();
 
-    // const auth = getAuth(app);
-    // auth.onAuthStateChanged(function(user) {
-    //     console.log(user);
-    //     if (user) {
-    //       console.log("log in");
-    //     }
-    //   });
+    const auth = getAuth(app);
+    auth.onAuthStateChanged(function(user) {
+        setCurrentUser(user);
+        // console.log(user);
+        // if (user) {
+        //   console.log("log in");
+        // }
+      });
 
     const loginWithGoogle = (e) => {
         const auth = getAuth(app);

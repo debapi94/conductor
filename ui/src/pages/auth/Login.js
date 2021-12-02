@@ -1,14 +1,31 @@
+import { Redirect } from 'react-router';
 import { useAuth } from '../../AuthContext';
+import { Button } from "@material-ui/core";
+// import GoogleIcon from '@material-ui/icons/Google';
+import SearchIcon from "@material-ui/icons/Search";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      backgroundColor: "#efefef", // TODO: Use theme var
+      display: "flex",
+      justifyContent:"center",
+      alignItems:"center",
+      marginTop:"30px"
+    }
+  }));
 
 const Login = () => {
+    const classes = useStyles();
 
-    const { currentUser, loginWithGoogle, logOut } = useAuth();
+    const { currentUser, loginWithGoogle } = useAuth();
 
-    console.log(currentUser);
-
-    return <div>
-        <button onClick={e => loginWithGoogle(e)}>Login with Google</button>
-        <button onClick={e => logOut(e)}>signOut</button>
+    return currentUser ? <Redirect to="/"/> : <div className={classes.root}>
+        <Button onClick={e => loginWithGoogle(e)} color="primary" variant="outlined">
+            <img width="20px" style={{marginBottom:"3px", marginRight:"5px"}} alt="Google sign-in" 
+                src="/google.webp" />
+                Login with Google
+        </Button>
     </div>
 }
 

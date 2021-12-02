@@ -27,6 +27,7 @@ import Login from "./pages/auth/Login";
 import { AuthProvider } from './AuthContext';
 import PrivateRoute from './components/auth/PriavteRoute'
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#efefef", // TODO: Use theme var
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "auto",
     display: "flex",
     flexDirection: "row",
+    alignItems: "center"
   },
 }));
 
@@ -54,19 +56,7 @@ export default function App() {
         <AppBar position="fixed">
           <Toolbar>
             <AppLogo />
-            <Button component={NavLink} path="/">
-              Executions
-            </Button>
-            <Button component={NavLink} path="/workflowDef">
-              Definitions
-            </Button>
-            <Button component={NavLink} path="/taskQueue">
-              Task Queues
-            </Button>
-
-            <div className={classes.toolbarRight}>
-              <AppBarModules />
-            </div>
+            <AppBarModules classes={classes} />
           </Toolbar>
         </AppBar>
         <div className={classes.body}>
@@ -77,45 +67,45 @@ export default function App() {
             <Route exact path="/login">
               <Login />
             </Route>
-            <Route exact path="/search/by-tasks">
+            <PrivateRoute exact path="/search/by-tasks">
               <TaskSearch />
-            </Route>
-            <Route path="/execution/:id/:taskId?">
+            </PrivateRoute>
+            <PrivateRoute path="/execution/:id/:taskId?">
               <Execution />
-            </Route>
-            <Route exact path="/workflowDef">
+            </PrivateRoute>
+            <PrivateRoute exact path="/workflowDef">
               <WorkflowDefinitions />
-            </Route>
-            <Route exact path="/workflowDef/:name/:version?">
+            </PrivateRoute>
+            <PrivateRoute exact path="/workflowDef/:name/:version?">
               <WorkflowDefinition />
-            </Route>
-            <Route exact path="/taskDef">
+            </PrivateRoute>
+            <PrivateRoute exact path="/taskDef">
               <TaskDefinitions />
-            </Route>
-            <Route exact path="/taskDef/:name">
+            </PrivateRoute>
+            <PrivateRoute exact path="/taskDef/:name">
               <TaskDefinition />
-            </Route>
-            <Route exact path="/eventHandlerDef">
+            </PrivateRoute>
+            <PrivateRoute exact path="/eventHandlerDef">
               <EventHandlerDefinitions />
-            </Route>
-            <Route exact path="/eventHandlerDef/:name">
+            </PrivateRoute>
+            <PrivateRoute exact path="/eventHandlerDef/:name">
               <EventHandlerDefinition />
-            </Route>
-            <Route exact path="/taskQueue/:name?">
+            </PrivateRoute>
+            <PrivateRoute exact path="/taskQueue/:name?">
               <TaskQueue />
-            </Route>
-            <Route exact path="/kitchen">
+            </PrivateRoute>
+            <PrivateRoute exact path="/kitchen">
               <KitchenSink />
-            </Route>
-            <Route exact path="/kitchen/diagram">
+            </PrivateRoute>
+            <PrivateRoute exact path="/kitchen/diagram">
               <DiagramTest />
-            </Route>
-            <Route exact path="/kitchen/examples">
+            </PrivateRoute>
+            <PrivateRoute exact path="/kitchen/examples">
               <Examples />
-            </Route>
-            <Route exact path="/kitchen/gantt">
+            </PrivateRoute>
+            <PrivateRoute exact path="/kitchen/gantt">
               <Gantt />
-            </Route>
+            </PrivateRoute>
           </Switch>
         </div>
       </div>
