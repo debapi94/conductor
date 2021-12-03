@@ -16,7 +16,6 @@ export function AuthProvider({ children }) {
     const auth = getAuth(app);
     auth.onAuthStateChanged(function(user) {
         setCurrentUser(user);
-        // console.log(user);
         // if (user) {
         //   console.log("log in");
         // }

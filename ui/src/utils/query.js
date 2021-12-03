@@ -8,6 +8,7 @@ import {
 } from "react-query";
 import qs from "qs";
 import { useFetchContext, fetchWithContext } from "../plugins/fetch";
+import { useAuth } from '../AuthContext';
 
 const STALE_TIME_DROPDOWN = 600000; // 10 mins
 const STALE_TIME_WORKFLOW_DEFS = 600000; // 10 mins
@@ -15,10 +16,11 @@ const STALE_TIME_SEARCH = 60000; // 1 min
 
 export function useFetch(path, reactQueryOptions) {
   const fetchContext = useFetchContext();
+  const fetchParams = {headers:useAuthHeaders()};
 
   return useQuery(
     [fetchContext.stack, path],
-    () => fetchWithContext(path, fetchContext),
+    () => fetchWithContext(path, fetchContext, fetchParams),
     {
       enabled: fetchContext.ready,
       keepPreviousData: true,
@@ -26,9 +28,16 @@ export function useFetch(path, reactQueryOptions) {
     }
   );
 }
+function useAuthHeaders() {
+  const { currentUser } = useAuth();
+  const fetchParams = { 'X-Authorization': JSON.stringify(currentUser.stsTokenManager) };
+  return fetchParams;
+}
+
 export function useWorkflowSearch(searchObj) {
   const fetchContext = useFetchContext();
   const pathRoot = "/workflow/search?";
+  const fetchParams = {headers:useAuthHeaders()};
 
   return useQuery(
     [fetchContext.stack, pathRoot, searchObj],
@@ -43,7 +52,7 @@ export function useWorkflowSearch(searchObj) {
           freeText: freeText,
           query: query,
         });
-      return fetchWithContext(path, fetchContext);
+      return fetchWithContext(path, fetchContext, fetchParams);
       // staletime to ensure stable view when paginating back and forth (even if underlying results change)
     },
     {
@@ -57,6 +66,7 @@ export function useWorkflowSearch(searchObj) {
 export function useTaskSearch({searchReady, ...searchObj}) {
   const fetchContext = useFetchContext();
   const queryClient = useQueryClient();
+  const fetchParams = {headers:useAuthHeaders()};
 
   const pathRoot = "/workflow/search-by-tasks?";
   const key = [fetchContext.stack, pathRoot, searchObj];
@@ -81,7 +91,7 @@ export function useTaskSearch({searchReady, ...searchObj}) {
             freeText: freeText,
             query: query,
           });
-        return fetchWithContext(path, fetchContext);
+        return fetchWithContext(path, fetchContext, fetchParams);
       },
       {
         getNextPageParam: (lastPage, pages) => pages.length,
@@ -95,20 +105,21 @@ export function useTaskSearch({searchReady, ...searchObj}) {
 
 export function useTaskQueueInfo(taskName) {
   const fetchContext = useFetchContext();
+  const fetchParams = {headers:useAuthHeaders()};
 
   const pollDataPath = `/tasks/queue/polldata?taskType=${taskName}`;
   const sizePath = `/tasks/queue/sizes?taskType=${taskName}`;
 
   const { data: pollData, isFetching: pollDataFetching } = useQuery(
     [fetchContext.stack, pollDataPath],
-    () => fetchWithContext(pollDataPath, fetchContext),
+    () => fetchWithContext(pollDataPath, fetchContext, fetchParams),
     {
       enabled: fetchContext.ready && !_.isEmpty(taskName),
     }
   );
   const { data: size, isFetching: sizeFetching } = useQuery(
     [fetchContext.stack, sizePath],
-    () => fetchWithContext(sizePath, fetchContext),
+    () => fetchWithContext(sizePath, fetchContext, fetchParams),
     {
       enabled: fetchContext.ready && !_.isEmpty(taskName),
     }
@@ -127,12 +138,15 @@ export function useTaskQueueInfo(taskName) {
 
 export function useAction(path, method = "post", callbacks) {
   const fetchContext = useFetchContext();
+  const authHeaders = useAuthHeaders();
+
   return useMutation(
     (mutateParams) =>
       fetchWithContext(path, fetchContext, {
         method,
         headers: {
           "Content-Type": "application/json",
+          ...authHeaders
         },
         body: _.get(mutateParams, "body"),
       }),

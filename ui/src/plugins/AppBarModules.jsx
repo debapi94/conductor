@@ -5,7 +5,6 @@ import { Button } from "@material-ui/core";
 export default function AppBarModules({ classes }) {
   const { currentUser, logOut } = useAuth();
 
-  console.log(classes);
   return (
     currentUser ?  <>
                       <Button component={NavLink} path="/">

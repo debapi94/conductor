@@ -1,8 +1,6 @@
 import { Redirect } from 'react-router';
 import { useAuth } from '../../AuthContext';
 import { Button } from "@material-ui/core";
-// import GoogleIcon from '@material-ui/icons/Google';
-import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({

@@ -6,7 +6,6 @@ const PriavteRoute = (props) => {
 
     const { currentUser } = useAuth();
 
-    console.log(currentUser);
     return (
         <Route  {...props}>
             {currentUser ? React.cloneElement(props.children, {...props}) : <Redirect to="/login" />}
