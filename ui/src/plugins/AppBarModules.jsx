@@ -18,7 +18,7 @@ export default function AppBarModules({ classes }) {
                       </Button>
 
                       <div className={classes.toolbarRight}>
-                        {currentUser.displayName ?? currentUser.email.replace(/(.{7})..+/, "$1…")}&nbsp;
+                        {currentUser.displayName ?? currentUser.email.replace(/(.{12})..+/, "$1…")}&nbsp;
                         <Button onClick={e => logOut(e)} color="primary" variant="outlined">
                             Log out
                         </Button>
