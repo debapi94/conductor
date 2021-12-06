@@ -1,4 +1,4 @@
-import { getAuth, signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signOut, signInWithPopup, GoogleAuthProvider, GithubAuthProvider  } from "firebase/auth";
 import app from './configs/firebase-config';
 import React, { useContext, useState } from 'react';
 import { useHistory } from "react-router";
@@ -27,8 +27,8 @@ export function AuthProvider({ children }) {
         signInWithPopup(auth, provider)
         .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
+            //const credential = GoogleAuthProvider.credentialFromResult(result);
+            //const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
             setCurrentUser(user);
@@ -46,6 +46,31 @@ export function AuthProvider({ children }) {
         });
     }
 
+    const loginWithGithub = (e) => {
+        const auth = getAuth(app);
+        const provider = new GithubAuthProvider();
+        signInWithPopup(auth, provider)
+        .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            //const credential = GithubAuthProvider.credentialFromResult(result);
+            //const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            setCurrentUser(user);
+            // console.log(token);
+            //console.log(user);
+        }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.email;
+            // The AuthCredential type that was used.
+            const credential = GithubAuthProvider.credentialFromError(error);
+            console.log("error", errorCode, errorMessage, email, credential); 
+        });
+    }
+
     const logOut = (e) => {
         const auth = getAuth(app);
         signOut(auth).then(() => {
@@ -55,7 +80,7 @@ export function AuthProvider({ children }) {
         }).catch(err => console.log(err));
     }
 
-    const value = { currentUser, loginWithGoogle, logOut };
+    const value = { currentUser, loginWithGoogle, loginWithGithub, logOut };
 
     return (
         <AuthContext.Provider value={value}>

@@ -16,13 +16,18 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
     const classes = useStyles();
 
-    const { currentUser, loginWithGoogle } = useAuth();
+    const { currentUser, loginWithGoogle, loginWithGithub } = useAuth();
 
     return currentUser ? <Redirect to="/"/> : <div className={classes.root}>
         <Button onClick={e => loginWithGoogle(e)} color="primary" variant="outlined">
             <img width="20px" style={{marginBottom:"3px", marginRight:"5px"}} alt="Google sign-in" 
                 src="/google.webp" />
                 Login with Google
+        </Button>
+        <Button onClick={e => loginWithGithub(e)} color="primary" variant="outlined">
+            <img width="20px" style={{marginBottom:"3px", marginRight:"5px"}} alt="Google sign-in" 
+                src="/google.webp" />
+                Login with Github
         </Button>
     </div>
 }
