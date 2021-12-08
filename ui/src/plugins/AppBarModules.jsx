@@ -1,9 +1,15 @@
-import { useAuth } from '../AuthContext'
+//import { useAuth } from '../AuthContext'
+import { useAuth } from '../Auth0AuthContext'
 import NavLink from "../components/NavLink";
 import { Button } from "@material-ui/core";
 
 export default function AppBarModules({ classes }) {
-  const { currentUser, logOut } = useAuth();
+  const { user:currentUser, logout } = useAuth();
+
+  const logOut = (e) =>
+    logout({
+      returnTo: window.location.origin,
+    });
 
   return (
     currentUser ?  <>

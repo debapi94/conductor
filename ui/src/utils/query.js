@@ -29,9 +29,14 @@ export function useFetch(path, reactQueryOptions) {
   );
 }
 function useAuthHeaders() {
-  const { currentUser } = useAuth();
-  const fetchParams = { 'X-Authorization': JSON.stringify(currentUser.stsTokenManager) };
-  return fetchParams;
+  // const obj = useAuth();
+  // if(obj.isAuthenticated){
+  //   const { user:currentUser } = obj;
+  //   const fetchParams = { 'X-Authorization': JSON.stringify(currentUser.stsTokenManager) };
+  //   return fetchParams;
+  // }
+
+  return {};
 }
 
 export function useWorkflowSearch(searchObj) {
