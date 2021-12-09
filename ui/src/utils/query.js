@@ -8,7 +8,7 @@ import {
 } from "react-query";
 import qs from "qs";
 import { useFetchContext, fetchWithContext } from "../plugins/fetch";
-import { useAuth } from '../AuthContext';
+import { useAuth, IsFirebaseAuth } from '../AuthProvider';
 
 const STALE_TIME_DROPDOWN = 600000; // 10 mins
 const STALE_TIME_WORKFLOW_DEFS = 600000; // 10 mins
@@ -28,13 +28,14 @@ export function useFetch(path, reactQueryOptions) {
     }
   );
 }
+
 function useAuthHeaders() {
-  // const obj = useAuth();
-  // if(obj.isAuthenticated){
-  //   const { user:currentUser } = obj;
-  //   const fetchParams = { 'X-Authorization': JSON.stringify(currentUser.stsTokenManager) };
-  //   return fetchParams;
-  // }
+  const obj = useAuth();
+  if(obj.isAuthenticated || IsFirebaseAuth){
+    const { currentUser } = obj;
+    const fetchParams = { 'X-Authorization': JSON.stringify(currentUser.stsTokenManager) };
+    return fetchParams;
+  }
 
   return {};
 }

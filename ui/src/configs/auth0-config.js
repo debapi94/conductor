@@ -1,6 +1,6 @@
 const configJson = {
-    "domain": "dev-q5m4v8z8.us.auth0.com",
-    "clientId": "XBAIWFWBvgBT71m8ujR1NO7TiPBKJXWk"
+    "domain": process.env.REACT_APP_AUTH0_DOMAIN,
+    "clientId": process.env.REACT_APP_AUTH0_CLIENTID
   }
 
   export function getConfig() {

@@ -8,10 +8,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 export function useAuth() {
   const obj = useAuth0();
   if(obj.isAuthenticated){
-    obj.displayName = obj.user.name;
-    obj.getAccessTokenSilently().then(token => obj.stsTokenManager = token);
+    obj.user.displayName = obj.user.name;
+    obj.getAccessTokenSilently().then(token => obj.user.stsTokenManager = token);
   }
-  console.log(obj);
+
+  obj.logOut = (e) => obj.logout({ returnTo: window.location.origin });
+  obj.currentUser = obj.user;
   return obj;
 }
 
@@ -24,7 +26,7 @@ const onRedirectCallback = (appState) => {
   // );
 };
 
-export function AuthProvider({ children }) {
+export default function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const history = useHistory();
 

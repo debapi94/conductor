@@ -13,7 +13,7 @@
     return new Auth0Client(getConfig());
   }
   
-  export function AuthProvider({ children }) {
+  export default function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState();
     const history = useHistory();
   

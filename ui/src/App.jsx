@@ -24,8 +24,7 @@ import Gantt from "./pages/kitchensink/Gantt";
 
 import AppBarModules from "./plugins/AppBarModules";
 import Login from "./pages/auth/Login";
-//import { AuthProvider } from './AuthContext';
-import { AuthProvider } from './Auth0AuthContext';
+import { AuthProvider } from './AuthProvider';
 import PrivateRoute from './components/auth/PriavteRoute'
 
 
