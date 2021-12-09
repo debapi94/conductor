@@ -1,6 +1,6 @@
 
-import AuthFirebaseProvider, * as authfirebase from './AuthContext';
-import Auth0Provider, * as auth0 from './Auth0AuthContext';
+import AuthFirebaseProvider, * as authfirebase from './auth/AuthContext';
+import Auth0Provider, * as auth0 from './auth/Auth0AuthContext';
 
 let AuthProvider = null;
 let useAuth = null;
